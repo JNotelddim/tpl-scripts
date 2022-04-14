@@ -1,0 +1,69 @@
+<script>
+    /** THIS SCRIPT INITIALIZES THE CONTENT FILTERING FUNCTIONALITY **/
+
+    const filterId = 'content-filter';
+    const tagItemClassName = 'tag-item';
+    const contentItemClassName = 'content-item';
+    const contentTagClassName = 'content-tag';
+
+    const fillInFilterOptions = () => {
+        console.log('filling in filter select options')
+        const tags = document.getElementsByClassName(tagItemClassName);
+
+        for(let i = 0; i<tags.length; i++) {
+        const item = tags[i];
+            const { innerText } = item;
+            var option = document.createElement("option");
+            option.value = innerText;
+            option.text = innerText;
+            const dropdown = document.getElementById(filterId);
+            dropdown.appendChild(option);
+        }
+    }
+
+    const filterChangeHandler = (event) => {
+        // For all the '.content-item's, if they don't have a child '.content-tag' which matches the select value, hide them.
+        // if there's no current filter selected, show everything.
+        const currentFilter = event.target.value;
+        // console.log('handle filter change', event, event.target.value, currentFilter);
+
+        const contentItems = document.querySelectorAll(`.${contentItemClassName}`);
+        if (!currentFilter) {
+            contentItems.forEach(item => item.style.display = 'block');
+            return;
+        }
+
+        const contentTags = document.querySelectorAll('.content-item .content-tag');
+        const matchingTags = []
+        contentTags.forEach(tag =>{
+            if(tag.innerText === currentFilter){
+                matchingTags.push(tag);
+            }
+        })
+        // console.log({ contentItems, contentTags, matchingTags })
+        contentItems.forEach(item => { 
+            item.style.display="none"
+            // console.log('checking item', item)
+            if( matchingTags.some(tag => item.contains(tag))){
+                // console.log('found a match!', item)
+                item.style.display="block"
+            }
+        });
+    }
+
+    const applyFilterChangeHandler = () => {
+        console.log('applying filter change handler');
+        const dropdown = document.getElementById(filterId);
+        dropdown.onchange = filterChangeHandler;
+    }
+
+    const filterInit = () => {
+        console.log('initializing filter capabilities');
+        fillInFilterOptions();
+        applyFilterChangeHandler();
+    }
+
+    filterInit();
+    // document.getElementById('filter-init-button').onclick = filterInit;
+
+</script>
