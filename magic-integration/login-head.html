@@ -4,3 +4,15 @@
     data-redirect-uri="https://the-planet-life.webflow.io/explore"
 >
 </script>
+
+<script>
+    function tryGetUser() {
+        const getUser = window.getUser;
+        if (typeof getUser === "function") {
+            getUser();
+        } else {
+            console.error("getUser fn not present", { getUser, windowGetUser: window.getUser });
+        }
+    }
+    tryGetUser();
+</script>
