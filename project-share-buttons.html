@@ -1,0 +1,21 @@
+<script>
+    const shareFacebookButton = document.getElementById('share-facebook-btn')
+    const shareTwitterButton = document.getElementById('share-twitter-btn')
+    const shareEmailButton = document.getElementById('share-email-btn')
+    const shareLinkButton = document.getElementById('share-link-btn')
+    const projectTitle = document.getElementById('project-title').innerText
+
+    const url = window.location.href
+    const lastSlashIndex = url.lastIndexOf('/')
+    const projectSlug = url.slice(lastSlashIndex + 1)
+    const domain = 'the-planet-life.webflow.io'
+
+    shareFacebookButton?.setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F${domain}%2Fproject%2F${projectSlug}&amp;src=sdkpreparse`)
+    shareTwitterButton?.setAttribute('href', `https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&text=Twitter%20Publish&url=https%3A%2F%2F${domain}%2Fproject%2F${projectSlug}`)
+    shareTwitterButton?.setAttribute('href', `https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&text=Check%20out%20this%20awesome%20project%20on%20The%20Planet%20Life!&url=https%3A%2F%2F${domain}%2Fproject%2F${projectSlug}`)
+    shareEmailButton.setAttribute('href', `mailto:?subject=${projectTitle} on TPL&body=Check out this project on The Planet Life: ${window.location.href}`) 
+    shareLinkButton?.addEventListener('click', (event) => {
+        event.preventDefault()
+        navigator.clipboard.writeText(window.location.href);
+    })
+</script>
