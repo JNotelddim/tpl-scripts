@@ -6,11 +6,20 @@
     const contentItemClassName = 'content-item';
     const contentTagClassName = 'content-tag';
 
+    /**
+     * fillInFilterOptions initializes the dropdown options with the values from
+     * the hidden list on the page which is generated from the CMS.
+     */
     const fillInFilterOptions = () => {
         console.log('filling in filter select options')
-        const tags = document.getElementsByClassName(tagItemClassName);
+        // Get the tag elements and sort them alphabetically by innerText
+        const tags = Array.from(
+                document.getElementsByClassName(tagItemClassName)
+            ).sort(
+                (tagA, tagB) => tagA.innerText.localeCompare(tagB.innerText)
+            );
 
-        for(let i = 0; i<tags.length; i++) {
+        for(let i = 0; i< tags.length; i++) {
         const item = tags[i];
             const { innerText } = item;
             var option = document.createElement("option");
@@ -21,18 +30,27 @@
         }
     }
 
+    /**
+     * filterChangeHandler handles when the filter's value is changed.
+     * When the filter is changed, this function will go through all the `content-item`s
+     * and their respective `content-tag`s, and then hide all the items that don't have
+     * a tag matching the current filter value.
+     * If there's no filter selected, then it sets them all to be shown.
+     */
     const filterChangeHandler = (event) => {
         // For all the '.content-item's, if they don't have a child '.content-tag' which matches the select value, hide them.
         // if there's no current filter selected, show everything.
         const currentFilter = event.target.value;
         // console.log('handle filter change', event, event.target.value, currentFilter);
 
+        // Get the list of items
         const contentItems = document.querySelectorAll(`.${contentItemClassName}`);
         if (!currentFilter) {
             contentItems.forEach(item => item.style.display = 'block');
             return;
         }
 
+        // Get the list of tags
         const contentTags = document.querySelectorAll('.content-item .content-tag');
         const matchingTags = []
         contentTags.forEach(tag =>{
@@ -40,6 +58,8 @@
                 matchingTags.push(tag);
             }
         })
+
+        // Update the 'display' style of all the items to align with the filter status.
         // console.log({ contentItems, contentTags, matchingTags })
         contentItems.forEach(item => { 
             item.style.display="none"
