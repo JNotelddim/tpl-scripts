@@ -1,0 +1,13 @@
+
+<div id="ajaxContent"></div>
+<script>
+    var Webflow = Webflow || [];
+    Webflow.push(
+        function () {
+            $.get('https://raw.githubusercontent.com/JNotelddim/tpl-scripts/main/privacy.html',
+                function (data) {
+                    $('#ajaxContent').append(data);
+                });
+        }
+    );
+</script>
